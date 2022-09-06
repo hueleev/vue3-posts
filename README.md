@@ -33,5 +33,3 @@ npm run build
 ```sh
 npm run lint
 ```
-
-태그 다시 삭제
