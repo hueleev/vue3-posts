@@ -34,4 +34,4 @@ npm run build
 npm run lint
 ```
 
-태그 추가아아
+태그 다시 삭제
