@@ -1,17 +1,30 @@
 <template>
 	<h2>home view</h2>
-	<p>{{ $route }}</p>
-	<p>{{ $router }}</p>
+	<!-- <p>{{ $route }}</p>
+	<p>{{ $router }}</p> -->
 	<button class="btn btn-primary" @click="goAboutPage">About으로 이동</button>
+	<hr class="my-4" />
+	<!-- <div class="row g-3">
+		<div v-for="(item, index) in items" :key="index" class="col-4">
+			<AppCard>{{ item }}</AppCard>
+		</div>
+	</div> -->
+	<AppGrid :items="items" v-slot="{ item }" col-calss="col-3">
+		<AppCard>{{ item }}</AppCard>
+	</AppGrid>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router';
-
+import AppCard from '@/components/AppCard.vue';
+import AppGrid from '@/components/AppGrid.vue';
+import { ref } from 'vue';
 const router = useRouter();
 const goAboutPage = () => {
 	router.push('/about');
 };
+
+const items = ref(['사과', '딸기', '포도', '바나나']);
 </script>
 
 <style lang="scss" scoped></style>
