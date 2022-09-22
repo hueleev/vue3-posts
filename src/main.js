@@ -6,13 +6,14 @@ import objPlugins from './plugins/obj';
 import person from './plugins/person';
 import globalComponents from './plugins/global-components';
 import globalDirectives from './plugins/global-directives';
+import dayjs from './plugins/dayjs';
 
 const app = createApp(App);
 app.use(globalComponents);
 app.use(router);
 app.use(objPlugins, { name: '짐코딩' });
 app.use(person, { name: '홍길동' });
-
+app.use(dayjs);
 app.use(globalDirectives);
 
 app.mount('#app');
