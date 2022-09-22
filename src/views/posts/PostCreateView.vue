@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h2>게시글 등록</h2>
+		<h2 @click="visibleForm = !visibleForm">게시글 등록</h2>
 		<hr class="my-4" />
 		<PostForm
 			v-model:title="form.title"

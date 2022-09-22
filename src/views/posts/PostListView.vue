@@ -47,9 +47,6 @@
 <script setup>
 import PostItem from '@/components/posts/PostItem.vue';
 import PostDetailView from '@/views/posts/PostDetailView.vue';
-import AppPagination from '@/components/AppPagination.vue';
-import AppCard from '@/components/AppCard.vue';
-import AppGrid from '@/components/AppGrid.vue';
 import PostModal from '@/components/posts/PostModal.vue';
 import PostFilter from '@/components/posts/PostFilter.vue';
 
