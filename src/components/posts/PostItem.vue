@@ -9,7 +9,7 @@
 		<p class="text-muted">{{ createdDate }}</p>
 		<template #footer>
 			<div class="d-flex flex-row-reverse">
-				<button class="btn p-0" @click.stop="$emit('modal')">
+				<button class="btn p-" @click.stop="$emit('modal')">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="16"
@@ -23,6 +23,20 @@
 						/>
 						<path
 							d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-1 0A7 7 0 1 0 1 8a7 7 0 0 0 14 0z"
+						/>
+					</svg>
+				</button>
+				<button class="btn p-1" @click.stop="$emit('preview')">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						fill="currentColor"
+						class="bi bi-app"
+						viewBox="0 0 16 16"
+					>
+						<path
+							d="M11 2a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3h6zM5 1a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4V5a4 4 0 0 0-4-4H5z"
 						/>
 					</svg>
 				</button>
@@ -46,7 +60,7 @@ const props = defineProps({
 		type: [String, Date, Number],
 	},
 });
-defineEmits(['modal']);
+defineEmits(['modal', 'preview']);
 const dayjs = inject('dayjs');
 const createdDate = computed(() =>
 	dayjs(props.createdAt).format('YYYY. MM. DD HH:mm:ss'),

@@ -5,6 +5,7 @@
 
 	<div v-else>
 		<h2>{{ post.title }}</h2>
+		<p>id: {{ props.id }}, isOdd: {{ isOdd }}</p>
 		<p>{{ post.content }}</p>
 		<p class="text-muted">
 			{{ $dayjs(post.createdAt).format('YYYY. MM. DD HH:mm:ss') }}
@@ -52,15 +53,21 @@
 import { useRouter } from 'vue-router';
 import { useAxios } from '@/hooks/useAxios';
 import { useAlert } from '@/composables/alert';
+import { computed, toRef, toRefs } from 'vue';
+import { useNumber } from '@/composables/number';
 
 const { vAlert, vSuccess } = useAlert();
 
 const props = defineProps({
 	id: [Number, String],
 });
-
+const url = computed(() => `/posts/${props.id}`);
 const router = useRouter();
-const { error, loading, data: post } = useAxios(`/posts/${props.id}`);
+// const idRef = toRef(props, 'id');
+const { id: idRef } = toRefs(props);
+const { isOdd } = useNumber(idRef);
+
+const { error, loading, data: post } = useAxios(url);
 
 const {
 	error: removeError,
