@@ -59,44 +59,35 @@ import PostDetailView from '@/views/posts/PostDetailView.vue';
 import PostModal from '@/components/posts/PostModal.vue';
 import PostFilter from '@/components/posts/PostFilter.vue';
 
-import { getPosts } from '@/api/posts';
-import { computed, ref, watchEffect } from 'vue';
+import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAxios } from '@/hooks/useAxios';
 const router = useRouter();
-const posts = ref([]);
-const error = ref(null);
-const loading = ref(false);
+// const posts = ref([]);
+// const error = ref(null);
+// const loading = ref(false);
 const params = ref({
 	_sort: 'createdAt',
 	_order: 'desc',
 	_page: 1,
 	_limit: 3,
-	title_like: '',
 });
+const {
+	response,
+	data: posts,
+	error,
+	loading,
+} = useAxios('/posts', { method: 'get', params });
+
 // pagination
-const totalCount = ref(0);
+const totalCount = computed(() => {
+	console.log(response.value.headers);
+	return response.value.headers['x-total-count'];
+});
 const pageCount = computed(() =>
 	Math.ceil(totalCount.value / params.value._limit),
 );
 
-const fetchPosts = async () => {
-	try {
-		// ({ data: posts.value } = await getPosts());
-		loading.value = true;
-		const { data, headers } = await getPosts(params.value);
-		posts.value = data;
-		totalCount.value = headers['x-total-count'];
-	} catch (err) {
-		error.value = err;
-	} finally {
-		loading.value = false;
-	}
-};
-
-fetchPosts();
-
-// fetchPost 안 반응형 데이터가 변경되면  다시 실행된다.
-watchEffect(fetchPosts);
 const goPage = id => {
 	//router.push(`/posts/${id}`);
 	//http://localhost:5173/posts/1?searchText=helloworld

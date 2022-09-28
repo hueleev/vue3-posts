@@ -50,64 +50,44 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { deletePost, getPostById } from '@/api/posts';
-import { ref } from 'vue';
+import { useAxios } from '@/hooks/useAxios';
+import { useAlert } from '@/composables/alert';
+
+const { vAlert, vSuccess } = useAlert();
 
 const props = defineProps({
 	id: [Number, String],
 });
 
 const router = useRouter();
-const error = ref(null);
-const loading = ref(false);
+const { error, loading, data: post } = useAxios(`/posts/${props.id}`);
 
-/**
- * ref
- * 장) 객체 할당 가능, 일관성(primitive, reference 전부 가능)
- * 단) form.value.title, form.value.content
- *
- * reactvie
- * 장) form.title, form.content
- * 단) 객체 할당 불가능
- */
-const post = ref({});
+const {
+	error: removeError,
+	loading: removeLoading,
+	execute,
+} = useAxios(
+	`/posts/${props.id}`,
+	{ method: 'delete' },
+	{
+		immediate: false,
+		onSuccess: () => {
+			vSuccess('삭제가 완료되었습니다.');
+			router.push({ name: 'PostList' });
+		},
+		onError: error => {
+			vAlert(error.message);
+		},
+	},
+);
 
-const fetchPost = async () => {
-	try {
-		loading.value = true;
-		const { data } = await getPostById(props.id);
-		setPost(data);
-	} catch (err) {
-		error.value = err;
-	} finally {
-		loading.value = false;
-	}
-};
-
-const setPost = ({ title, content, createdAt }) => {
-	post.value.title = title;
-	post.value.content = content;
-	post.value.createdAt = createdAt;
-};
-
-fetchPost();
-
-const removeError = ref(null);
-const removeLoading = ref(false);
 const remove = async () => {
-	try {
-		if (confirm('삭제 하시겠습니까?') === false) {
-			return;
-		}
-		removeLoading.value = true;
-		await deletePost(props.id);
-		router.push({ name: 'PostList' });
-	} catch (error) {
-		removeError.value = error;
-	} finally {
-		removeLoading.value = false;
+	if (confirm('삭제 하시겠습니까?') === false) {
+		return;
 	}
+	execute();
 };
+
 const goListPage = () => router.push({ name: 'PostList' });
 const goEditPage = () =>
 	router.push({ name: 'PostEdit', params: { id: props.id } });
