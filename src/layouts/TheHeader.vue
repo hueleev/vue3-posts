@@ -2,7 +2,8 @@
 	<header>
 		<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="#">GymCoding</a>
+				<RouterLink class="navbar-brand" to="/">GymCoding</RouterLink>
+				<!-- <a class="navbar-brand" href="#">GymCoding</a> -->
 				<button
 					class="navbar-toggler"
 					type="button"
