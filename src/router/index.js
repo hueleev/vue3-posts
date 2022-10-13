@@ -11,6 +11,7 @@ import NestedView from '@/views/nested/NestedView.vue';
 import NestedOneView from '@/views/nested/NestedOneView.vue';
 import NestedTwoView from '@/views/nested/NestedTwoView.vue';
 import NestedHomeView from '@/views/nested/NestedHomeView.vue';
+import MyPage from '@/views/MyPage.vue';
 
 const routes = [
 	{
@@ -74,8 +75,26 @@ const routes = [
 				component: NestedTwoView
 			}
 		]
+	},
+	{
+		path: '/my',
+		name: 'MyPage',
+		component: MyPage,
+		beforeEnter: [removeQueryString]
+		// (to, from) => {
+		// 	console.log(to.query);
+		// 	if (Object.keys(to.query).length > 0) {
+		// 		return {path: to.path, query: {}}; // ?search=text 같은거 있을 경우, 원래 가려던 경로로 가되 query 삭제
+		// 	}
+		// }
 	}
 ];
+
+function removeQueryString(to) {
+	if (Object.keys(to.query).length > 0) {
+		return {path: to.path, query: {}}; // ?search=text 같은거 있을 경우, 원래 가려던 경로로 가되 query 삭제
+	}
+}
 
 const router = createRouter({
 	history: createWebHistory('/'),
@@ -83,5 +102,12 @@ const router = createRouter({
 	routes,
 });
 
+// router.beforeEach((to, from)=> {
+// 	console.log('to: ', to);
+// 	console.log('from: ', from);
+// 	if (to.name === 'MyPage') {
+// 		return {name: 'Home'}; // return '/posts'
+// 	}
+// });
 
 export default router;

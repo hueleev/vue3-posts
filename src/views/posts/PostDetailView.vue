@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRouter } from 'vue-router';
 import { useAxios } from '@/hooks/useAxios';
 import { useAlert } from '@/composables/alert';
 import { computed, toRefs } from 'vue';
@@ -98,6 +98,23 @@ const remove = async () => {
 const goListPage = () => router.push({ name: 'PostList' });
 const goEditPage = () =>
 	router.push({ name: 'PostEdit', params: { id: props.id } });
+
+onBeforeRouteUpdate(() => {
+	console.log('onBeforeRouteUpdate');
+});
+onBeforeRouteLeave(() => {
+	console.log('onBeforeRouteLeave');
+});
 </script>
 
+<script>
+export default {
+	beforeRouteEnter() {
+		console.log('beforeRouterEnter');
+	},
+	// beforeRouteLeave() {
+	// 	console.log('onBeforeRouteLeave');
+	// },
+};
+</script>
 <style lang="scss" scoped></style>
