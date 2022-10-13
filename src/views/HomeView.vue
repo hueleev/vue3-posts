@@ -17,6 +17,7 @@
 	<button class="btn btn-primary" @click="person.say">click person</button> -->
 	<h2>{{ position }}</h2>
 	<h2>x: {{ x }}</h2>
+	<h2>y: {{ y }}</h2>
 </template>
 
 <script>
@@ -30,7 +31,7 @@ export default {
 
 <script setup>
 import { useRouter } from 'vue-router';
-import { reactive, ref, toRef, toRefs } from 'vue';
+import { reactive, ref, toRefs } from 'vue';
 const router = useRouter();
 const goAboutPage = () => {
 	router.push('/about');
